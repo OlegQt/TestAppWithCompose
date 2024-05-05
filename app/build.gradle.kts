@@ -62,6 +62,13 @@ dependencies {
     // such as input and measurement/layout
     implementation("androidx.compose.ui:ui:1.0.1")
 
+    // Optional - Integration with LiveData
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
+
+    debugImplementation("androidx.compose.ui:ui-tooling:1.0.0")
+
+
+
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
