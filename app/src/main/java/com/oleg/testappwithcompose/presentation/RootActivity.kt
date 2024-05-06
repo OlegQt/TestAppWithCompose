@@ -4,18 +4,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -39,7 +43,7 @@ class RootActivity : ComponentActivity() {
         }
     }
 
-    companion object{
+    companion object {
         const val SHADOW_OFFSET_MULTIPLIER = 14.0F
     }
 
@@ -50,38 +54,29 @@ class RootActivity : ComponentActivity() {
     @Composable
     fun ShowApp() {
         Scaffold(
-            topBar = {
-                ShowTextWithShadow(textLine = "Application")
-                Divider()
-            },
-            content = {
-                Text(text = "Text")
-                val d =it
-                //ShowLayout()
-            }
+            topBar = showAppBar,
+            content = { showContent(it) }
         )
-
     }
 
-    @Composable
-    fun ShowLayout() {
-        Column {
-            Box(
-                modifier = Modifier
-                    .weight(weight = 0.5f)
-                    .fillMaxWidth()
-                    .background(color = Color.Gray)
-            ) {
+    @OptIn(ExperimentalMaterial3Api::class)
+    val showAppBar: @Composable () -> Unit = {
+        TopAppBar(
+            title = { ShowTextWithShadow(textLine = "Compose") },
+            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
 
-            }
-            Box(
-                modifier = Modifier
-                    .weight(weight = 0.5f)
-                    .fillMaxWidth()
-                    .background(color = Color.LightGray)
-            ) {
-
-            }
+    val showContent: @Composable (PaddingValues) -> Unit = {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .background(color = MaterialTheme.colorScheme.background)
+        ) {
+            Divider()
+            Text(text = "Padding from AppBar = ${it.toString()}")
+            Divider()
         }
     }
 
@@ -96,13 +91,13 @@ class RootActivity : ComponentActivity() {
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = textLine,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
             style = TextStyle(
                 fontStyle = FontStyle.Italic,
                 fontSize = 40.sp,
                 shadow = Shadow(
-                    color = Color.DarkGray,
+                    color = MaterialTheme.colorScheme.primary,
                     offset = Offset(shadowOffsetX, shadowOffsetY),
                     blurRadius = 10.5f
                 )
